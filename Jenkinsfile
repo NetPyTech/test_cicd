@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    APP_ID = "a0QtXXT23YRgkKFhyPzzh"
+    APP_ID = "a0QtXXT23YRgkKFhyPzzh" 
   }
 
   parameters {
@@ -64,12 +64,14 @@ pipeline {
         string(credentialsId: params.DEPLOY_KEY_CRED_ID, variable: 'DEPLOY_KEY')
       ]) {
         sh '''
-          curl -X POST \
+          json_payload=$(printf '{"applicationId":"%s"}' "$APP_ID")
+          curl -fS -X POST \
             "$DEPLOY_URL" \
-            -H "accept: application/json" \
-            -H "Content-Type: application/json" \
+            -H 'accept: application/json' \
+            -H 'Content-Type: application/json' \
             -H "x-api-key: $DEPLOY_KEY" \
-            -d "{\"applicationId\": \"$APP_ID\"}"
+            --data-binary "$json_payload" \
+            -w "\nHTTP %{http_code}\n"
         '''
       }
     }
