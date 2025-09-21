@@ -58,7 +58,7 @@ def main() -> int:
     api_key = ENV_VAR
 
     try:
-        content = fetch_projects(api_key, "yoyo-deadcidid-g4y5oy")
+        content = fetch_projects(api_key, "yoyo-cicdddddd-742gyy")
     except HTTPError as e:
         # requests HTTPError
         msg = str(e)
