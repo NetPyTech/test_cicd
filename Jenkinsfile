@@ -2,9 +2,7 @@ pipeline {
   agent any
 
   environment {
-    REMOTE_USER = "youruser"
-    REMOTE_HOST = "your.server.com"
-    REMOTE_PATH = "/home/youruser/app"
+    APP_ID = "a0QtXXT23YRgkKFhyPzzh"
   }
 
   stages {
@@ -50,6 +48,24 @@ pipeline {
       steps {
         sh '.venv/bin/python check.py'
       }
+    }
+  }
+
+  post {
+    success {
+      echo "✅ Tests passed, triggering deployment API..."
+      sh """
+        curl -X POST \
+          '${DEPLOY_URL}' \
+          -H 'accept: application/json' \
+          -H 'Content-Type: application/json' \
+          -H 'x-api-key: ${DEPLOY_KEY}' \
+          -d '{"applicationId": "${APP_ID}"}'
+      """
+    }
+
+    failure {
+      echo "❌ Pipeline failed, sending error email..."
     }
   }
 }

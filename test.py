@@ -9,7 +9,6 @@ API_URL = "http://31.97.60.222:3000/api/project.all"
 OUTPUT_FILE = "project_all.json"
 ENV_VAR = "testDjahFOGCKZEzXTIcUrofTzOtzwHngjnRZRUZWaYgCGSXftaoBMJWFAlhMVLyjemR"
 
-
 def fetch_projects(api_key: str, app_name: str) -> bytes:
     """Fetch projects from Dokploy API and return raw response bytes."""
     headers = {
