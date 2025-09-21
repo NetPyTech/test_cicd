@@ -5,6 +5,11 @@ pipeline {
     APP_ID = "a0QtXXT23YRgkKFhyPzzh"
   }
 
+  parameters {
+    string(name: 'DEPLOY_URL_CRED_ID', defaultValue: 'DEPLOY_URL', description: 'Credentials ID for the deployment URL (Secret Text)')
+    string(name: 'DEPLOY_KEY_CRED_ID', defaultValue: 'DEPLOY_KEY', description: 'Credentials ID for the deployment API key (Secret Text)')
+  }
+
   stages {
     stage('Checkout') {
       steps {
@@ -54,14 +59,19 @@ pipeline {
   post {
     success {
       echo "✅ Tests passed, triggering deployment API..."
-      sh """
-        curl -X POST \
-          '${DEPLOY_URL}' \
-          -H 'accept: application/json' \
-          -H 'Content-Type: application/json' \
-          -H 'x-api-key: ${DEPLOY_KEY}' \
-          -d '{"applicationId": "${APP_ID}"}'
-      """
+      withCredentials([
+        string(credentialsId: params.DEPLOY_URL_CRED_ID, variable: 'DEPLOY_URL'),
+        string(credentialsId: params.DEPLOY_KEY_CRED_ID, variable: 'DEPLOY_KEY')
+      ]) {
+        sh '''
+          curl -X POST \
+            "$DEPLOY_URL" \
+            -H "accept: application/json" \
+            -H "Content-Type: application/json" \
+            -H "x-api-key: $DEPLOY_KEY" \
+            -d "{\"applicationId\": \"$APP_ID\"}"
+        '''
+      }
     }
 
     failure {
