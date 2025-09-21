@@ -2,7 +2,7 @@ import requests
 import os
 
 # API endpoint
-url = "http://127.0.0.1:8000/api/candidate/"
+url = "http://127.0.0.1:8000/api/candidates/"
 
 # Candidate data
 data = {
