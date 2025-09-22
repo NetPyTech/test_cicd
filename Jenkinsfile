@@ -74,10 +74,41 @@ pipeline {
             -w "\nHTTP %{http_code}\n"
         '''
       }
+      // Send success email notification
+      mail to: 'xaioene@gmail.com',
+           subject: "Jenkins Success: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+           body: """Hello,
+
+The Jenkins pipeline for ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) has succeeded.
+
+- Branch: ${env.BRANCH_NAME}
+- Commit: ${env.GIT_COMMIT}
+- Build URL: ${env.BUILD_URL}
+
+Deployment API was triggered successfully.
+
+Regards,
+Jenkins
+"""
     }
 
     failure {
       echo "❌ Pipeline failed, sending error email..."
+      mail to: 'xaioene@gmail.com',
+           subject: "Jenkins Failure: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+           body: """Hello,
+
+The Jenkins pipeline for ${env.JOB_NAME} (build #${env.BUILD_NUMBER}) has failed.
+
+- Branch: ${env.BRANCH_NAME}
+- Commit: ${env.GIT_COMMIT}
+- Build URL: ${env.BUILD_URL}
+
+Please check the console output for details.
+
+Regards,
+Jenkins
+"""
     }
   }
 }
