@@ -54,8 +54,7 @@ pipeline {
         sh '.venv/bin/python check.py'
       }
     }
-  }
-
+  }  
   post {
     success {
       echo "✅ Tests passed, triggering deployment API..."
