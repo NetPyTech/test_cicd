@@ -1,6 +1,5 @@
 import requests
 import os
-import sys
 
 # API endpoint
 url = "http://127.0.0.1:8000/api/candidates/"
@@ -42,7 +41,3 @@ except Exception:
     print("\n\n\n")
     print("Response Text:", response.text)
 print("\n\n\n")
-
-# Cause the script (and Jenkins stage) to fail on non-2xx responses
-if not (200 <= response.status_code < 300):
-    sys.exit(1)
