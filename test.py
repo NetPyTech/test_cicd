@@ -7,7 +7,7 @@ from requests.exceptions import HTTPError, ConnectionError, Timeout, RequestExce
 
 API_URL = "http://31.97.60.222:3000/api/project.all"
 OUTPUT_FILE = "project_all.json"
-ENV_VAR = "testDjahFOGCKZEzXTIcUrofTzOtzwHngjnRZRUZWaYgCGSXftaoBMJWFAlhMVLyjemR"
+ENV_VAR = ""
 
 def fetch_projects(api_key: str, app_name: str) -> bytes:
     """Fetch projects from Dokploy API and return raw response bytes."""
@@ -57,7 +57,7 @@ def main() -> int:
     api_key = ENV_VAR
 
     try:
-        content = fetch_projects(api_key, "yoyo-cicdddddd-742gyy")
+        content = fetch_projects(api_key, "cidedeploycicd-csrx9k")
     except HTTPError as e:
         # requests HTTPError
         msg = str(e)
