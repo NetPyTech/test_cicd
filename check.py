@@ -1,5 +1,6 @@
 import requests
 import os
+import sys
 
 # API endpoint
 url = "http://127.0.0.1:8000/api/candidates/"
@@ -25,7 +26,7 @@ if not os.path.isfile(resume_path):
     raise FileNotFoundError(f"Resume file not found: {resume_path}")
 
 # Open file for upload
-with open(resume_pat, "rb") as resume_file:
+with open(resume_path, "rb") as resume_file:
     files = {"resume": (os.path.basename(resume_path), resume_file, "application/pdf")}
     
     # Send POST request
@@ -41,3 +42,7 @@ except Exception:
     print("\n\n\n")
     print("Response Text:", response.text)
 print("\n\n\n")
+
+# Cause the script (and Jenkins stage) to fail on non-2xx responses
+if not (200 <= response.status_code < 300):
+    sys.exit(1)
