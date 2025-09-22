@@ -2,7 +2,7 @@ import requests
 import os
 
 # API endpoint
-url = "http://127.0.0.1:8000/api/candidate/"
+url = "http://127.0.0.1:8000/api/candidates/"
 
 # Candidate data
 data = {
@@ -25,7 +25,7 @@ if not os.path.isfile(resume_path):
     raise FileNotFoundError(f"Resume file not found: {resume_path}")
 
 # Open file for upload
-with open(resume_path, "rb") as resume_file:
+with open(resume_pat, "rb") as resume_file:
     files = {"resume": (os.path.basename(resume_path), resume_file, "application/pdf")}
     
     # Send POST request
